@@ -1,102 +1,274 @@
-# Laravel REST API Authentication Package (using Sanctum)
+# 🚀 Laravel API Auth
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/mahbubur508/api-auth.svg?style=flat-square)](https://packagist.org/packages/mahbubur508/api-auth)
 [![Total Downloads](https://img.shields.io/packagist/dt/mahbubur508/api-auth.svg?style=flat-square)](https://packagist.org/packages/mahbubur508/api-auth)
 [![License](https://img.shields.io/packagist/l/mahbubur508/api-auth.svg?style=flat-square)](https://packagist.org/packages/mahbubur508/api-auth)
 
-A robust, secure, and plug-and-play REST API Authentication package for Laravel applications using **Laravel Sanctum**. It provides built-in, ready-to-use controllers and endpoints for user management (Register, Login, Logout, and Profile Details) with clean JSON responses.
+A lightweight and secure REST API Authentication package for Laravel powered by **Laravel Sanctum**. Quickly add user registration, login, logout, and authenticated profile endpoints to your Laravel applications with minimal setup.
 
 ---
 
-## Features
+## ✨ Features
 
-- **Fast & Lightweight:** Built on top of official Laravel Sanctum.
-- **Pre-configured Routes:** No need to write manual authentication routes.
-- **Customizable:** Easily change route prefixes and token names via config.
-- **Standard API Responses:** Clean and predictable JSON response structures.
+* 🔐 Laravel Sanctum powered authentication
+* 🚀 Ready-to-use API endpoints
+* 👤 User Registration
+* 🔑 User Login
+* 🚪 User Logout
+* 🙍 Authenticated User Profile
+* ⚙️ Configurable route prefixes
+* 🎟️ Customizable token names
+* 📦 Plug-and-play installation
+* 📄 Consistent JSON responses
 
 ---
 
-## Installation
+## 📋 Requirements
 
-### Step 1: Install the Package via Composer
+* PHP 8.1+
+* Laravel 10.x / 11.x / 12.x
+* Laravel Sanctum
 
-Run the following command in your Laravel project root:
+---
+
+## 📦 Installation
+
+Install the package via Composer:
 
 ```bash
 composer require mahbubur508/api-auth
 ```
-### Step 2: Configure Your User Model
-- **Ensure your App\Models\User model includes the HasApiTokens trait from Laravel Sanctum.
-  <?php
-  namespace App\Models;
-  
-  use Illuminate\Foundation\Auth\User as Authenticatable;
-  use Laravel\Sanctum\HasApiTokens; // <--- Import this
-  
-  class User extends Authenticatable
-  {
-      use HasApiTokens; // <--- Add this trait
-  }
 
-### Step 3: Run Database Migrations
+---
+
+## ⚙️ User Model Configuration
+
+Ensure your `User` model uses Sanctum's `HasApiTokens` trait:
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasApiTokens;
+}
+```
+
+---
+
+## 🗄️ Run Migrations
 
 ```bash
 php artisan migrate
 ```
 
-### Step 4: Publish Config File
+---
+
+## 🔧 Publish Configuration
 
 ```bash
- php artisan vendor:publish --tag="api-auth-config"
+php artisan vendor:publish --tag="api-auth-config"
 ```
 
--** This will create a config file at config/api-auth.php.
+This will create:
 
-Configuration (config/api-auth.php)
+```text
+config/api-auth.php
+```
 
+---
+
+## ⚙️ Configuration
+
+```php
 return [
-    // Change your API Authentication endpoints prefix
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Route Prefix
+    |--------------------------------------------------------------------------
+    */
+
     'prefix' => 'api/v1/auth',
 
-    // Change the token identifier name
+    /*
+    |--------------------------------------------------------------------------
+    | Sanctum Token Name
+    |--------------------------------------------------------------------------
+    */
+
     'token_name' => 'api_auth_token',
+
 ];
+```
 
-API Endpoints & Usage
-Always add Accept: application/json in your request headers.
+---
 
-1. User Registration
-Endpoint: POST /api/v1/auth/register
+## 🚀 API Endpoints
 
+> Add the following header to all requests:
 
-  JSON
-  {
-      "name": "John Doe",
-      "email": "john@example.com",
-      "password": "password123",
-      "password_confirmation": "password123"
-  }
+```http
+Accept: application/json
+```
 
-  2. User Login
-    Endpoint: POST /api/v1/auth/login
-    {
-      "email": "john@example.com",
-      "password": "password123"
+### 📝 Register User
+
+**Endpoint**
+
+```http
+POST /api/v1/auth/register
+```
+
+**Request Body**
+
+```json
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password123",
+    "password_confirmation": "password123"
+}
+```
+
+---
+
+### 🔑 Login User
+
+**Endpoint**
+
+```http
+POST /api/v1/auth/login
+```
+
+**Request Body**
+
+```json
+{
+    "email": "john@example.com",
+    "password": "password123"
+}
+```
+
+---
+
+### 👤 Get Authenticated User
+
+**Endpoint**
+
+```http
+GET /api/v1/auth/me
+```
+
+**Headers**
+
+```http
+Authorization: Bearer {access_token}
+```
+
+---
+
+### 🚪 Logout User
+
+**Endpoint**
+
+```http
+POST /api/v1/auth/logout
+```
+
+**Headers**
+
+```http
+Authorization: Bearer {access_token}
+```
+
+---
+
+## 📄 Example Response
+
+### Successful Login
+
+```json
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "user": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com"
+        },
+        "token": "1|xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     }
+}
+```
 
+---
 
-    3. Get Authenticated User Profile (Protected)
-Endpoint: GET /api/v1/auth/me
+## 🔒 Security Recommendations
 
-Headers: Authorization: Bearer {your_access_token}
+For production environments:
 
-4. User Logout (Protected)
-Endpoint: POST /api/v1/auth/logout
+* Enable HTTPS
+* Configure CORS properly
+* Use secure password validation
+* Apply API rate limiting
+* Rotate tokens when necessary
 
-Headers: Authorization: Bearer {your_access_token}
+---
 
-📄 License
-The MIT License (MIT). See LICENSE for details.
+## 🛠 Customization
 
-Made with ❤️ by Mahbub — Dhaka, Bangladesh
+Change route prefix and token name from:
+
+```php
+config/api-auth.php
+```
+
+Example:
+
+```php
+'prefix' => 'api/auth',
+'token_name' => 'my_custom_token',
+```
+
+---
+
+## 📄 License
+
+The MIT License (MIT). See [LICENSE](LICENSE) for details.
+
+---
+
+## 👨‍💻 Author
+
+### Md. Mahbubur Rahman
+
+Full-Stack Developer
+
+* Laravel
+* React.js
+* Next.js
+* REST APIs
+* Docker & DevOps
+
+---
+
+## ❤️ Support
+
+If you find this package useful, please consider:
+
+⭐ Starring the repository
+
+🐛 Reporting issues
+
+🚀 Contributing improvements
+
+---
+
+**Made with ❤️ by Md. Mahbubur Rahman**
