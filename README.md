@@ -26,7 +26,7 @@ Run the following command in your Laravel project root:
 ```bash
 composer require mahbubur508/api-auth
 ```
-### Step 1: Configure Your User Model
+### Step 2: Configure Your User Model
 - **Ensure your App\Models\User model includes the HasApiTokens trait from Laravel Sanctum.
   <?php
   namespace App\Models;
