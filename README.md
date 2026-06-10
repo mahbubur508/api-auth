@@ -96,8 +96,7 @@ Endpoint: POST /api/v1/auth/logout
 
 Headers: Authorization: Bearer {your_access_token}
 
-License
-The MIT License (MIT). Please see License File for more information.
+📄 License
+The MIT License (MIT). See LICENSE for details.
 
-Credits
-Md. Mahbubur Rahman
+Made with ❤️ by Mahbub — Dhaka, Bangladesh
