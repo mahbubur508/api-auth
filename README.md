@@ -26,7 +26,7 @@ A lightweight and secure REST API Authentication package for Laravel powered by 
 ## 📋 Requirements
 
 * PHP 8.1+
-* Laravel 10.x / 11.x / 12.x
+* Laravel 10.x / 11.x / 12.x / 13.x
 * Laravel Sanctum
 
 ---
